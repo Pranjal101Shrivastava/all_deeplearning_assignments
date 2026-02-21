@@ -1,0 +1,26 @@
+name: ai_chat_app
+description: AI-Powered Flutter App using Google Gemini API
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_generative_ai: ^0.4.3   # Google Gemini SDK (antigravity)
+  flutter_markdown: ^0.6.18
+  shared_preferences: ^2.2.2
+  cupertino_icons: ^1.0.6
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
