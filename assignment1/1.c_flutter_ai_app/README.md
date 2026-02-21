@@ -86,13 +86,3 @@ shared_preferences: ^2.2.2      # Local storage
 intl: ^0.18.1                   # Internationalization
 ```
 
-## 🎥 YouTube Walkthrough Script
-1. Show Claude generating this code
-2. Walk through project structure
-3. Show `gemini_service.dart` — API integration
-4. Show `chat_screen.dart` — UI & state management  
-5. Live demo on Android emulator + web browser
-6. Show streaming responses in real-time
-
----
-*Generated using Claude AI (Agentic AI Tool) — Assignment Demo*
