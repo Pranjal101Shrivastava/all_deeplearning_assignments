@@ -1,0 +1,35 @@
+# Pixel Quest: 8-Bit Productivity
+
+Pixel Quest is a gamified todo application that transforms your daily tasks into epic adventures. Earn XP, level up, and build your hero's legacy through productivity.
+
+## 🚀 Features
+
+- **Gamified Quests**: Add and complete tasks to earn XP.
+- **Hero Progress**: Dynamic XP bar and Leveling system.
+- **Retro Aesthetic**: Custom 8-bit design with modern glassmorphism and animations.
+- **Persistent Progress**: Automatically saves your quests and level using LocalStorage.
+
+## 📺 Demo
+
+### UI Exploration
+The app features a vibrant retro theme with neon accents and a grid background.
+
+![Final Dashboard State](/Users/pranjal/.gemini/antigravity/brain/5bb6a398-411d-4fb9-a457-d20509789436/final_pixel_quest_verification_1771717472413.png)
+
+### Functionality Demo
+Watch the app in action: completing quests, earning XP, and adding new adventures.
+
+![Quest Functionality Demo](/Users/pranjal/.gemini/antigravity/brain/5bb6a398-411d-4fb9-a457-d20509789436/pixel_quest_functionality_check_1771717380741.webp)
+
+## 🛠 Tech Stack
+
+- **Frontend**: React + TypeScript + Vite
+- **Styling**: Vanilla CSS (Retro Design System)
+- **State**: LocalStorage Persistence
+- **Built With**: AntiGravity & Gemini Pro
+
+## 🏁 How to Run
+
+1. Clone the repository artifacts.
+2. Run `npm install`.
+3. Start the dev server with `npm run dev`.
