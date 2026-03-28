@@ -1,0 +1,12 @@
+Notebook 01 — Custom LR · MC Dropout · MaxNorm · TensorBoard (i, ii, iii, iv)
+
+Notebook 02 — Custom Loss · Activation · Initializer · Regularizer · Metric (v, vi, vii)
+
+Notebook 03 — Custom Layers · Custom Models · Custom Optimizer · Custom Training Loop (viii, ix, x, xi)
+
+Notebook 04 — Weights & Biases (xii)
+
+Notebook 05 — PyTorch Advanced Concepts (Full Reference)
+  
+All concepts reimplemented in idiomatic PyTorch: LambdaLR warmup-cosine, MCDropout, MyLayerNorm, WideResBlock / WideResNet, Lookahead optimizer, FocalLoss + LabelSmoothing, mixed-precision training (torch.cuda.amp), gradient accumulation, max-norm constraint in loop.
+
