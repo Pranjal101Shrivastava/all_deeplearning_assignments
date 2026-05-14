@@ -1,0 +1,365 @@
+================================================================================
+REPORT
+From Lab Demos to Production Lines:
+A Personal Reading of "Empowering Real-World: A Survey on the Technology,
+Practice, and Evaluation of LLM-driven Industry Agents"
+(Tang et al., arXiv:2510.17491, October 2025)
+
+Author: Pranjal Shrivastava
+================================================================================
+
+
+--------------------------------------------------------------------------------
+PART 1 - SUMMARY OF THE PAPER 
+--------------------------------------------------------------------------------
+
+Large language model (LLM) agents have moved from research demos toward
+genuine tools used inside companies, but the path from "an LLM that can call
+a function" to "an agent that pays for itself inside a real business
+workflow" is still unevenly mapped. Tang and co-authors try to draw that
+map. They argue that industry agents - autonomous or semi-autonomous systems
+deployed in concrete business contexts - face problems that general agents
+do not: real time constraints in finance, real authority constraints in
+healthcare, and real physical constraints in manufacturing. Existing
+surveys, they note, mostly look at each piece (memory, planning, tools) in
+isolation. This one tries to put them back together with industrial
+deployment as the organising frame.
+
+The survey's central contribution is a five-level capability maturity
+model that lines up agent sophistication with the technologies that make
+each level possible:
+
+  L1 - Process Execution System
+       Translate natural language to a structured action; extract
+       information from documents. Deterministic, scripted, RPA-like.
+
+  L2 - Interactive Problem-Solving System
+       Augment a human in the loop, support decisions, single tool calls.
+       Most "copilot" products live here.
+
+  L3 - End-to-End Autonomous System
+       Multi-step planning, persistent memory, recovery from errors.
+       The current frontier in coding agents, AI-scientist systems, and
+       embodied robotics.
+
+  L4 - Collaborative Intelligent System
+       Multi-agent teams, shared state, simulation of whole systems
+       (markets, traffic, supply chains).
+
+  L5 - Adaptive Social System
+       Self-improving population of agents that generate their own goals
+       and evolve across "generations." Today, this is a thin frontier
+       with only a handful of prototypes.
+
+The authors then track three technology pillars - Memory, Planning, and
+Tool Use - through the same five rungs. The argument is that each rung of
+the maturity model is gated by a matching upgrade in each pillar:
+
+  Memory
+    L1 Contextual          - just the LLM's context window
+    L2 Passive Retrieval   - retrieval-augmented generation over an
+                             external knowledge base
+    L3 Active Learning     - reflection, experience internalisation
+    L4 Distributed Shared  - shared memory across multiple agents
+    L5 Evolutionary        - memory carried across generations of agents
+
+  Planning
+    L1 Linear              - chain-of-thought
+    L2 Reactive            - ReAct-style think/act/observe loops
+    L3 Global              - tree-of-thought, look-ahead, world models
+    L4 Collaborative       - multi-agent role assignment, task allocation
+    L5 Autonomous Goal     - self-directed, open-ended goal generation
+
+  Tool Use
+    L1 Instruction-Driven  - one-shot, program-aided language models
+    L2 Goal-Driven         - learned function calling (Toolformer, ReAct)
+    L3 Dynamic Orchestration - tool selection and routing at runtime
+    L4 Distributed Management - tool marketplaces, agent-as-tool patterns
+    L5 Tool Creation       - agents that synthesise their own tools
+
+After grounding the framework, the survey walks through where each
+maturity level actually shows up in practice. L1 covers NL-to-SQL and
+document extraction. L2 covers copilots and GUI agents. L3 is where most
+current industrial work sits - code agents, AI scientists, embodied
+robotics. L4 contains agentic trading, customer service, and city-scale
+simulators. L5 is a thin frontier - the paper itself lists only two
+examples in Fig. 2 (EvoAgent and AdaSociety).
+
+The evaluation chapter is the most practically useful part of the paper.
+The authors split benchmarks into two layers: fundamental benchmarks (one
+per pillar - Memory, Planning, Tool Use) and industry-specific benchmarks
+(general agent suites such as AgentBench versus domain-specific suites
+such as WebArena or VisualWebArena). They are explicit that current
+benchmarks under-test the things industry actually cares about:
+long-horizon reliability, safety under adversarial users, regulatory
+compliance, and the authenticity of the evaluation environment.
+
+The paper closes on bottlenecks. They do not split evenly across the
+three pillars:
+  - In Memory, the hard part is long-context forgetting and filtering
+    noisy environmental information into structured experience.
+  - In Planning, the hard part is brittleness under real-world dynamism
+    - real environments break static-world assumptions.
+  - In Tool Use, the hard part is selecting, combining, and recovering
+    from tools as toolboxes grow into hundreds of APIs.
+
+Above the technology layer, the survey points to governance, capability
+boundaries, and the cost of injecting deep domain expertise as the
+defining questions for the next generation of industry deployments.
+
+
+--------------------------------------------------------------------------------
+PART 2 - MY MEDIUM ARTICLE (in my own words)
+--------------------------------------------------------------------------------
+
+Title:    From Lab Demos to Production Lines: A Field Guide to LLM-Driven
+          Industry Agents
+Subtitle: A walk-through of the October 2025 survey by Tang et al. - and
+          what it tells us about why most agent demos never become
+          products.
+Length:   ~3,500 words / ~12 min read.
+
+
+1. TL;DR
+--------
+
+LLM agents - systems that plan, call tools, and act over long horizons -
+are the most-hyped corner of AI in 2025, but most of them never leave the
+demo reel. Tang et al. try to explain why, and propose a clean framework
+for thinking about *industrial* agents specifically: not the ones that win
+benchmarks, but the ones that quietly do work inside companies. The
+mental model the paper asks you to adopt is this:
+
+   An industry agent is not a model. It is a workflow - built on the
+   three pillars of Memory, Planning, and Tool Use - measured by
+   maturity, not accuracy.
+
+
+2. Why I picked this paper
+--------------------------
+
+There is no shortage of agent surveys in 2025. What makes this one
+different is its audience. Most surveys are written by researchers, for
+researchers. They taxonomise prompting tricks and benchmark scores and
+stop at the point where a CEO actually has to make a decision. Tang et
+al. begin where those surveys stop. They reframe the question from "how
+smart can it be?" into "how dependable can it be?" - and dependability
+is what separates a viral Twitter video from a line item on a P&L.
+
+
+3. The central question
+-----------------------
+
+The whole survey, compressed into one line:
+
+   "LLM agents can reason, plan and execute tasks autonomously - but how
+   do we translate that capability into industrial productivity that
+   actually transforms how work gets done?"
+
+The rest of the 60+ pages answer it by doing three things: defining a
+maturity ladder, decomposing the architecture into three reusable
+pillars, and mapping the five industry domains where agents are actually
+deployed today.
+
+
+4. The gap nobody talks about
+-----------------------------
+
+Researchers and practitioners optimise for different objectives, and
+this survey is unusually honest about it.
+
+What papers tend to optimise for:
+   - Accuracy on a curated benchmark.
+   - Short-horizon, single-turn reasoning.
+   - Closed, simulated tool sets.
+   - Aggregate scores rather than workflow value.
+   - Few constraints on cost, latency, or governance.
+
+What real deployments actually need:
+   - End-to-end completion of multi-step workflows.
+   - Long-horizon memory that survives across sessions and quarters.
+   - Open tool ecosystems - CRMs, data warehouses, legacy ERPs.
+   - SLA-grade reliability, observability, and audit trails.
+   - Compliance, safety boundaries, and human-in-the-loop overrides.
+
+The contribution of this survey is to refuse to pick a side. It treats
+both columns as inputs to a single design problem.
+
+
+5. The capability maturity framework
+------------------------------------
+
+The headline contribution is the L1->L5 ladder (Process Execution ->
+Reactive Assistant -> Autonomous Worker -> Collaborative Agent ->
+Adaptive Social System).
+
+The framework is useful in two ways. First, it gives a vocabulary for
+honest conversations - when a vendor says "our agent automates your
+sales pipeline," you can ask: at what level? Second, it implies that L5
+is not always the goal. A compliance team might never want anything
+above L3, because predictability is itself a feature.
+
+My take: this is the most underrated idea in the paper. The field
+collectively rewards going "higher" - bigger models, longer horizons,
+more autonomy - but a lot of real value lives at L2 and L3.
+Acknowledging that openly is, weirdly, one of the more grown-up moves
+I have seen in an agent paper this year.
+
+
+6. The three pillars
+--------------------
+
+   Pillar 1 - Memory
+   Working memory, episodic memory, semantic memory, procedural
+   memory. The single most important shift: retrieval is now a
+   first-class citizen. Production memory is a vector store plus a
+   symbolic index plus a ranker - not a longer context window.
+   Reflection (agents summarising their own traces) is what keeps
+   memory from growing faster than time. And governance lives here:
+   PII, retention windows, access control must be enforced at the
+   layer where data persists, not at the application layer above it.
+
+   Pillar 2 - Planning
+   Four broad strategies that production systems blend rather than
+   choose between:
+      - Chain-of-Thought for narrow, well-scoped subtasks.
+      - ReAct loops for any agent with a tool surface.
+      - Tree or graph search for risky or irreversible actions.
+      - Reflection and replanning for recovery from failure.
+
+   Pillar 3 - Tool Use
+   The canonical closed loop is:
+      LLM Core -> Tool Router -> Tool Ecosystem -> Observation ->
+      Memory Update -> back to the LLM.
+   Three practical lessons:
+      - Tool surface equals attack surface. Sandboxing and scoped
+        credentials are the work, not the optional polish.
+      - Latency is a product feature. Tool batching, caching, and async
+        I/O separate "magical" from "abandoned after a week."
+      - Schemas beat free text. Strict typed function signatures cut
+        hallucinated tool calls dramatically.
+
+
+7. Where industry agents are actually landing
+---------------------------------------------
+
+Five domains where deployment is real, not aspirational:
+   1. Digital engineering - coding copilots, autonomous SWE agents,
+      on-call copilots. The most mature domain by a wide margin.
+   2. Scientific discovery - literature review, hypothesis generation,
+      lab control, paper drafting. High promise, very long horizons.
+   3. Embodied intelligence - robotics, navigation, manipulation.
+   4. Collaborative business execution - customer experience, sales,
+      operations. Agents alongside human teams, not replacing them.
+   5. Complex system simulation - markets, traffic, supply chains,
+      social dynamics.
+
+Spotlight 1 - Digital engineering. Where industry agents are most
+credible today. Software has rich digital traces, clear success
+signals (the tests pass or they don't), API-first tooling, and safe
+sandboxes. If you want to see an L4 agent in the wild, watch a modern
+autonomous coding agent handle a multi-file refactor.
+
+Spotlight 2 - Scientific discovery. The opposite - promising but hard.
+Long horizons, expensive experiments, novelty poorly captured by
+accuracy. The interesting work today is workflow assistance, not full
+autonomy.
+
+
+8. Evaluation: beyond accuracy
+------------------------------
+
+Industry agents need three layers of evaluation working together, not
+one leaderboard:
+
+   1. Fundamental capabilities - reasoning, tool use, planning, memory.
+   2. Specialised benchmarks - per-domain suites for software, science,
+      web, embodied tasks.
+   3. Real-world impact - workflow completion rate, cost per task,
+      end-to-end latency, user trust, and regret.
+
+A model that scores 90% on a benchmark but takes 90 seconds and $40 to
+answer a single customer question is a worse product than a model that
+scores 70% in one second for one cent. The current eval suites
+over-index on reasoning and tool use, and under-measure memory, safety,
+and cost.
+
+My take: the agent space is heading for a metric crisis similar to the
+one that hit recommender systems a decade ago - benchmark wins climb
+while user-facing quality plateaus. The way out is multi-layer
+evaluation, exactly as the authors propose.
+
+
+9. Open challenges
+------------------
+
+Six bottlenecks blocking the move from L3 toward L4 and L5:
+   - Authenticity: benchmarks miss the noise of real workflows.
+   - Safety and governance: still bolted on, not designed in.
+   - Long-horizon memory: what to remember, forget, surface.
+   - Cost and latency: agent loops multiply tokens.
+   - Multi-agent coordination: role assignment and shared state at
+     scale.
+   - Domain adaptation: re-tuning per vertical without redoing
+     everything.
+
+None are surprises individually; bundling them as one roadmap is the
+useful part.
+
+
+10. My critical take on the survey
+----------------------------------
+
+Strengths:
+   - First survey I have seen that centres maturity rather than model
+     size.
+   - Bridges agent research with concrete industrial pillars in a way
+     engineering teams actually think.
+   - Treats evaluation as multi-layer.
+   - Explicit that safety and governance are core, not optional.
+
+Where it could go deeper:
+   - Quantitative cross-domain comparisons are sparse.
+   - Cost and latency engineering - arguably the biggest demo-vs-
+     product gap - gets less ink than it deserves.
+   - Multi-agent governance is described as a challenge but not
+     seriously benchmarked.
+   - The open-source vs. proprietary agent gap is under-discussed; in
+     2025-26 this will dominate enterprise decisions.
+
+None are fatal. They are the natural limits of a synthesis paper
+written in a moving field.
+
+
+11. Five things to remember
+---------------------------
+
+   1. Industry agents are a category, not a model. The unit of analysis
+      is the workflow, not the LLM call.
+   2. Memory + Planning + Tools is the canonical stack. Every
+      production design re-derives these three pillars whether they
+      acknowledge them or not.
+   3. Maturity, not accuracy, is the right yardstick. L1 -> L5
+      captures organisational fit far better than benchmark numbers.
+   4. Evaluation must be multi-layered. Capability scores, domain
+      benchmarks, and real-world impact metrics belong together.
+   5. Governance is the new performance. Auditability, safety, and
+      cost are what decide what actually ships.
+
+
+--------------------------------------------------------------------------------
+PRIMARY REFERENCE
+--------------------------------------------------------------------------------
+
+Yihong Tang, Kehai Chen, Liang Yue, Jinxin Fan, Caishen Zhou, Xiaoguang
+Li, Yuyang Zhang, Mingming Zhao, Shixiong Kai, Kaiyang Guo, Xingshan
+Zeng, Wenjing Cun, Lifeng Shang, Min Zhang.
+"Empowering Real-World: A Survey on the Technology, Practice, and
+Evaluation of LLM-driven Industry Agents."
+arXiv preprint arXiv:2510.17491, October 2025.
+https://arxiv.org/abs/2510.17491
+
+
+--------------------------------------------------------------------------------
+END OF REPORT
+--------------------------------------------------------------------------------
