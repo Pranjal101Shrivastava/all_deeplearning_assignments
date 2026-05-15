@@ -1,4 +1,5 @@
-Youtube videos uploaded 
+Youtube videos uploaded on these links
+
 RNNs : https://youtu.be/FczQDAhPggU
 
 NLP : https://youtu.be/ROH4k-iAx1s
